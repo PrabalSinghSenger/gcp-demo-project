@@ -1,4 +1,4 @@
-<h4> To create Google Default Credentials </h4>h4>
+<h4> To create Google Default Credentials </h4>
 <p>
 <b> Step 1 : </b>Install and initialize the gcloud CLI software (https://cloud.google.com/sdk/docs/install)
 
