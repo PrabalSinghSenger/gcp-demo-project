@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-demo-project
+spec:
+  selector:
+    matchLabels:
+      app: gcp-demo-project
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gcp-demo-project
+    spec:
+      containers:
+        - name: gcp-demo-project
+          image: gcr.io/burner-prasingh80/gcp-demo-project
+          ports:
+            - containerPort: 9095
+          livenessProbe:
+            initialDelaySeconds: 20
+            httpGet:
+              port: 9095
+              path: /actuator/health
+          readinessProbe:
+            initialDelaySeconds: 30
+            httpGet:
+              port: 9095
+              path: /actuator/health

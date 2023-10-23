@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.cloud.gcp.demo.gcpdemoproject.domain.pojo.User;
 
-@Service
+//@Service
 public interface UserService {
 
 	List<User> findAllUsers();

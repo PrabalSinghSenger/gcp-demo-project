@@ -13,4 +13,5 @@ A login screen is displayed. After you log in, your credentials are stored in th
 Than add following variable to classpath
  <src> GOOGLE_APPLICATION_CREDENTIALS="path/to/key.json" </src>
 
-</p>
+</p>"# gcp-demo-project" 
+"# gcp-demo-project" 
