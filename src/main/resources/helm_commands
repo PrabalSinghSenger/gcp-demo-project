@@ -1,0 +1,12 @@
+docker build -t docker.io/ppsinghsingh2/gcp-demo-project:0.0.1 .
+docker push  ppsinghsingh2/gcp-demo-project:0.0.1
+docker run --name=gcp-demo-project --rm --network=gcp-demo-project
+docker run -d --name=gcp-demo-project  -p 9095:9095  ppsinghsingh2/gcp-demo-project:0.0.1
+kubectl  apply -f .\deploy.yml
+kubectl scale --replicas=2 deployment/knote
+kubectl delete pod gcp-demo-project-6956c749ff-6lbmc
+kubectl delete service  gcp-demo-project
+kubectl delete deployment gcp-demo-project
+kubectl describe svc  gcp-demo-project
+minikube tunnel
+helm upgrade --install gcp-demo-project .\helm-chart --set service.type=NodePort --debug
