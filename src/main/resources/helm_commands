@@ -10,3 +10,9 @@ kubectl delete deployment gcp-demo-project
 kubectl describe svc  gcp-demo-project
 minikube tunnel
 helm upgrade --install gcp-demo-project .\helm-chart --set service.type=NodePort --debug
+
+export NODE_PORT=$(kubectl get  --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services gcp-demo-project)
+
+export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+
+echo http://$NODE_IP:$NODE_PORT
