@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'maven'
+        maven 'maven-3.5.0'
     }
 
     stages {
@@ -18,13 +18,22 @@ pipeline {
                 sh 'mvn clean package'
             }
             post {
-                always{
-                  cleanWs()
-                }
                     success {
                         junit 'target/surefire-reports/**/*.xml'
                  }
             }
         }
     }
+    
+    node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'maven';
+    withSonarQubeEnv() {
+      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=demo"
+    }
+  }
+}
 }
