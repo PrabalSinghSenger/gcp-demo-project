@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    
     tools {
         maven 'maven'
     }
@@ -9,7 +10,6 @@ pipeline {
             steps {
                 sh 'echo "PATH = ${PATH}"'
                 sh 'echo "M2_HOME = ${M2_HOME}"'
-                
             }
         }
         stage ('Build') {
@@ -22,7 +22,13 @@ pipeline {
                  }
             }
         }
-    }
+
+         stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    
     
         node {
           stage('SCM') {
@@ -35,4 +41,5 @@ pipeline {
                 }
           }
         }
+}
 }
