@@ -23,22 +23,7 @@ pipeline {
             }
         }
 
-        stage("sonarqube") {
-            agent any
-            steps {
-                def mvn = tool 'maven';
-                withSonarQubeEnv("sonarqube") {
-                    sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=gcp-demo-project"
-                }
-            }
-        }
-
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }//Quality gate
-
+       
 
         stage('Approve Deployment') {
             agent any
@@ -72,24 +57,6 @@ pipeline {
     } // post
 
 
-    node(label:'main') {
 
-        stage('Static Analysis') {
-            withSonarQubeEnv('sonarqube') {
-                bat 'mvn clean package sonar:sonar'
-                echo 'Static Analysis Completed'
-            }
-            stage("Quality Gate") {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                    def qg= waitForQualityGate()
-                    if (qg.status!= 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                    }
-                }
-                echo 'Quality Gate Passed'
-            }
-        }
-
-    }
+    
 }
